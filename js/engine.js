@@ -19,6 +19,8 @@ function Game(enemyAI) {
     this.img_bg.src = '../assets/bg-sky.png';
     this.img_bg_sun = new Image();
     this.img_bg_sun.src = '../assets/bg-sun.png';
+    this.img_bg_ground = new Image();
+    this.img_bg_ground.src = '../assets/bg-ground.png';
 
     // --background music
     this.bgMusic = new Audio('../assets/sound/music/western_music.mp3');
@@ -50,7 +52,7 @@ function Game(enemyAI) {
             this.playerShootInput = true;
         // The player is not allowed to shoot.
         } else {
-
+            //TODO: player fired before ready
         }
     }
 
@@ -62,7 +64,7 @@ function Game(enemyAI) {
             this.enemyShootInput = true;
         // The enemy is not allowed to shoot.
         } else {
-
+            //TODO: enemy fired before ready
         }
     }
 
@@ -119,7 +121,8 @@ function Game(enemyAI) {
 
         // Draw the background.
         this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        this.context.drawImage(this.img_bg_sun, 0, 0);
+        this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
+        this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
     }
 
     // The main game loop; updates and draws.
