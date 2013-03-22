@@ -1,8 +1,19 @@
 <html>
 <head>
-	<title>It's Aliiiiiive!</title>
+    <title>Leap JS Shootout</title>
+    <link type="text/css" rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-	<h1>It's Aliiiiive!</h1>
+<div id="content">
+    <div>Shootout Countdown: <span id="shootoutcountdown"></span></div>
+    <div>Player Shot: <span id="playershot"></span></div>
+    <div>
+        Enemy Shoot Cooldown: <span id="enemyshootcountdown"></span>
+        Enemy Shot: <span id="enemyshot"></span><br/>
+    </div>
+    <canvas id="viewport" width="900" height="500"></canvas>
+</div>
 </body>
 </html>
+<script type="text/javascript" src="js/lib/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="js/engine.js"></script>

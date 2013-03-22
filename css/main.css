@@ -1,0 +1,11 @@
+#content {
+    padding-top: 40px;
+    margin: 0 auto;
+    text-align: center;
+}
+#viewport {
+    width: 900px;
+    height: 500px;
+    border: 1px solid black;
+}
+.canvas-container { margin: 0 auto; }
