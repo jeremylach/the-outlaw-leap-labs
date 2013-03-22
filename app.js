@@ -11,8 +11,25 @@ app.configure(function(){
 var server = app.listen(8080);
 var io = socket.listen(server);
 
+var countdown = -1;
+
+
 io.sockets.on('connection', function (socket) {
     console.log("connnect");
+
+
+    socket.on("start_game", function(data) {
+        countdown = data.gametime;
+        var timer_interval = setInterval(function() {
+            if(countdown < 0) {
+                clearInterval(timer_interval);
+            }
+            countdown--;
+            io.sockets.emit('timer', { countdown: countdown });
+        }, 1000);
+    });
+
+
     //console.log("test123");
     console.log("HEYO: " + __dirname);
     socket.on('disconnect', function (socket) {
@@ -20,6 +37,12 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.emit("status_update",{txt:"Connected to server"});
+
+    socket.on('reset', function (data) {
+        countdown = data.gametime;
+        io.sockets.emit('timer', { countdown: countdown });
+    });
+
 
     /*socket.on('user_action', function (data) {
         console.log("User clicked: " + data.txt);
@@ -33,3 +56,5 @@ io.sockets.on('connection', function (socket) {
     });
     //socket.emit("user_fired",{username: "test" , action: "fired" });
 });
+
+
