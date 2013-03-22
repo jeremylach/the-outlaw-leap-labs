@@ -151,11 +151,6 @@ $(document).ready(function(){
 
     // Create a new game and run it.
     var game = new Game(true);
-<<<<<<< HEAD
-    //game.run();
-});
 
-=======
     game.run();
 });
->>>>>>> 370333adf3d07a4d3897ee70203c39fa7191de94
