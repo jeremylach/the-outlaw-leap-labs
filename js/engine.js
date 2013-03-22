@@ -67,12 +67,12 @@ function Game(enemyAI) {
         // The player is allowed to shoot and fires.
         if(this.readyToShoot){
             this.playerShootInput = true;
-
             var name = "Jeremy";
             //Register shot on server
             //socket.emit("user_fired",{username: "test"});
             socket.emit("user_fired", {username: name});
 
+            console.log('shot');
 
         // The player is not allowed to shoot.
         } else {
@@ -224,6 +224,5 @@ var game = new Game(true);
 $(document).ready(function(){
 
     // Create a new game and run it.
-    game = new Game(true);
     game.run();
 });
