@@ -67,6 +67,13 @@ function Game(enemyAI) {
 
     //------ Helper Functions ------//
 
+    // Change the state to the state with the given name.
+    this.setStateByName = function(stateName) {
+        for(var i = 0; i < this.state.length; i++) {
+            if(this.states[i].name == stateName){ this.state = i; break; }
+        }
+    }
+
     // Trigger when the player shoots.
     this.playerShoot = function() {
 
@@ -160,7 +167,7 @@ function Game(enemyAI) {
             if(this.playerShootInput && this.playerShot == false && this.enemyShot == false) {
                 this.playerShot = true;
                 this.sfx_gunfire.play();
-                this.state = 3;
+                this.setStateByName('victory');
                 // TODO: kill the enemy
             }
 
@@ -169,7 +176,7 @@ function Game(enemyAI) {
                 // do something
                 this.enemyShot = true;
                 this.sfx_gunfire.play();
-                this.state = 2;
+                this.setStateByName('defeat');
                 // TODO: kill the player
             }
         }
@@ -320,9 +327,9 @@ $(document).ready(function() {
 
     socket.on("gameover", function(data) {
        if(data.winner == your_name) {
-            game.state = 3;
+           this.setStateByName('victory');
        } else {
-            game.state = 2;
+           this.setStateByName('death');
        }
 
     });
