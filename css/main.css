@@ -37,9 +37,19 @@ h1, h2, h3, #message {
 
 #menu {
 	position: relative;
-	top: -300px;
+	top: -280px;
 }
 
 #instructions, #menu {
 	display: none;
+}
+
+#instructions {
+	line-height: 1;
+	font-family: 'Arbutus', sans-serif;
+	text-transform: uppercase;
+	color: #FC9F7C;
+	display: none;
+	position: relative;
+	top: -175px;
 }
