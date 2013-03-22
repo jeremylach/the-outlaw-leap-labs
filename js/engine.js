@@ -9,7 +9,7 @@ function Game(enemyAI) {
     this.fps = 30;
     this.gameInterval = null;
 
-    this.bgMusic = new Audio('../assets/sound/');
+    this.bgMusic = new Audio('../assets/sound/western_music.mp3');
     this.bgMusic.loop = true;
     this.bgMusic.play();
 
