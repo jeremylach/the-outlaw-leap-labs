@@ -5,6 +5,7 @@
 </head>
 <body>
 <div id="content">
+
     <div>Shootout Countdown: <span id="shootoutcountdown"></span></div>
     <div>Player Shot: <span id="playershot"></span></div>
     <div>
@@ -13,8 +14,29 @@
     </div>
 
     <canvas id="viewport" width="1000" height="700"></canvas>
+
 </div>
+
+
 </body>
 </html>
 <script type="text/javascript" src="js/lib/jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="js/engine.js"></script>
+
+
+<!--<script type="text/javascript" src="node_modules/socket.io/socket.io.js"></script>-->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    //var socket = io.connect('http://108.171.187.43:8080/');
+    var socket = io.connect("http://leap-labs.localhost.com:8080/");
+
+    socket.on("status_update",function(data){
+        $("#status").append(data.txt+"<br/>");
+    });
+
+    $(".button").click(function(){
+        var name = $("#username").val();
+        //$("#msgbox").append("Ping server<br>");
+        socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
+    });
+</script>

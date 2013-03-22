@@ -154,5 +154,6 @@ $(document).ready(function(){
 
     // Create a new game and run it.
     var game = new Game(true);
+
     game.run();
 });
