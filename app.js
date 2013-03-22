@@ -14,7 +14,7 @@ var io = socket.listen(server);
 var countdown = -1;
 var game_in_progress = false;
 
-var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy"];
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry"];
 
 io.sockets.on('connection', function (socket) {
     console.log("connnect");
@@ -34,16 +34,19 @@ io.sockets.on('connection', function (socket) {
 
             }, 1000);
         }
-
-        /*var random_idx = Math.floor(Math.random() * names.length);
-        player_name = names[random_idx];
-        io.socket.message("name_assign", {name: player_name});
-
-
-        names = names.splice(random_idx, 1);
-        console.log(names);
-        */
     });
+
+    socket.on("get_name", function() {
+        var random_idx = Math.floor(Math.random() * names.length);
+        player_name = names[random_idx];
+        //io.socket.message("name_assign", {name: player_name});
+
+        names.splice(random_idx, 1);
+        socket.send(names);
+
+        io.sockets.sockets[socket.id].emit("assign_name", {name: player_name});//, {name: player_name});
+    });
+
     socket.on("end_game", function(data) {
         game_in_progress = false;
         names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy"];
