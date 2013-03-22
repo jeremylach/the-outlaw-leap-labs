@@ -37,6 +37,8 @@ function Game(enemyAI) {
     this.img_cowboy_shadow_opening1.src = '../assets/cowboy-shadow-opening1.png';
     this.img_cowboy_dead = new Image();
     this.img_cowboy_dead.src = '../assets/cowboy-dead.png';
+    this.img_cowboy_dead_shadow = new Image();
+    this.img_cowboy_dead_shadow.src = '../assets/cowboy-dead-shadow.png';
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
@@ -224,6 +226,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
+            this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 18 - this.img_cowboy_opening1.height,
+                this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * .38);
         }
 
         // The player has been defeated.
@@ -232,6 +236,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - this.img_cowboy.height,
+                this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
 
         // The player is victorious.
@@ -241,6 +247,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy_dead, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 43);
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - this.img_cowboy.height - 8,
+                this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
     }
 
@@ -276,13 +284,23 @@ var game = new Game(true);
 
 var socket;
 var your_name;
-
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy"];
 
 // When the document is ready
 $(document).ready(function() {
-    your_name = $("#name").val();
+    var random_idx = Math.floor(Math.random() * names.length);
+    your_name = names[random_idx];
+    $("#name").val(your_name);
 
-    socket = io.connect("http://leap-labs.localhost.com:8080/");
+//    names = names.splice(random_idx, 1);
+
+
+    if(window.location.href.indexOf("leap-labs.localhost") != -1) {
+        socket = io.connect("http://leap-labs.localhost.com:8080/");
+    } else {
+        socket = io.connect("http://108.171.187.43:8080/");
+    }
+
 
     socket.on("status_update",function(data){
         $("#status").append(data.txt+"<br/>");
@@ -300,7 +318,7 @@ $(document).ready(function() {
     });
 
     $('#reset').click(function() {
-        socket.emit('reset', {gametime : 100});
+        socket.emit('reset', {gametime : 15});
     });
 
     socket.on("gameover", function(data) {
