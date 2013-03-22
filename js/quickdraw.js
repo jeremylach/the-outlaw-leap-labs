@@ -3,10 +3,10 @@
 		var pointing = false,
 			controllerOptions = {enableGestures: false},
 			waggleTolerance = {
-				minX : -.25,
-				maxX : .25,
-				minY : -.25,
-				maxY : .25
+				minX : -.3,
+				maxX : .3,
+				minY : -.3,
+				maxY : .3
 			},
 			reloadTime = 1000, // Min time in between shots, in milliseconds.
 			reloading = false; // Have we shot recently? If so, we are 'reloading' and can't shoot again for a bit. This prevents rapid fire in cases where the pointer jumps out of range and then back in.
