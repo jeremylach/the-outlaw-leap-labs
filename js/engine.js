@@ -16,12 +16,13 @@ function Game(enemyAI) {
 
     // --game state variables
     this.states = [
+        {name: 'title'},
         {name:'opening1', length: 600, frame: 0},
         //{name:'standoff'},
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
-    this.state = 0;
+    this.state = 1;
 
     // --images
     this.img_bg = new Image();
@@ -163,7 +164,7 @@ function Game(enemyAI) {
             if(this.playerShootInput && this.playerShot == false && this.enemyShot == false) {
                 this.playerShot = true;
                 this.sfx_gunfire.play();
-                this.state = 3;
+                this.state = 4;
                 // TODO: kill the enemy
             }
 
@@ -172,7 +173,7 @@ function Game(enemyAI) {
                 // do something
                 this.enemyShot = true;
                 this.sfx_gunfire.play();
-                this.state = 2;
+                this.state = 3;
                 // TODO: kill the player
             }
         }
@@ -323,9 +324,9 @@ $(document).ready(function() {
 
     socket.on("gameover", function(data) {
        if(data.winner == your_name) {
-            game.state = 3;
+            game.state = 4;
        } else {
-            game.state = 2;
+            game.state = 3;
        }
 
     });
