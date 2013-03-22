@@ -307,7 +307,7 @@ $(document).ready(function() {
     });
 
     $('#reset').click(function() {
-        socket.emit('reset', {gametime : 100});
+        socket.emit('reset', {gametime : 15});
     });
 
     socket.on("gameover", function(data) {
