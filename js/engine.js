@@ -72,7 +72,7 @@ function Game(enemyAI) {
 
     // Change the state to the state with the given name.
     this.setStateByName = function(stateName) {
-        for(var i = 0; i < this.state.length; i++) {
+        for(var i = 0; i < this.states.length; i++) {
             if(this.states[i].name == stateName){ this.state = i; break; }
         }
     }
@@ -243,7 +243,7 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
-            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - this.img_cowboy.height,
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 30,
                 this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
 
@@ -254,7 +254,7 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy_dead, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 43);
-            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - this.img_cowboy.height - 8,
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 20,
                 this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
     }
