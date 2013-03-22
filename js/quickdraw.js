@@ -44,14 +44,13 @@
 
 			if (frame.pointables.length === 1) {
 				gunFinger = frame.pointables[0];
-				wDirection(gunFinger.direction);
 				if (!pointing && checkWaggle(gunFinger.direction) && reloading) {
 					// Player tried to fire but was "reloading". An animation or something might go here in the future.
 				}
 
 				if (!pointing && checkWaggle(gunFinger.direction) && !reloading) {
 					// Call shoot event.
-					Game.playerShoot;
+					//Game.playerShoot();
 					reloading = true;
 					reloadTimeout = window.setTimeout(function() {
 						reloading = false;

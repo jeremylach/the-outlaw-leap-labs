@@ -50,6 +50,7 @@ function Game(enemyAI) {
         // The player is allowed to shoot and fires.
         if(this.readyToShoot){
             this.playerShootInput = true;
+            console.log('shot');
         // The player is not allowed to shoot.
         } else {
             //TODO: player fired before ready
