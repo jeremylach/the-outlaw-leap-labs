@@ -21,7 +21,7 @@ function Game(enemyAI) {
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
-    this.state = 1;
+    this.state = 0;
 
     // --images
     this.img_bg = new Image();
@@ -35,6 +35,8 @@ function Game(enemyAI) {
     this.img_cowboy_opening1.src = '../assets/cowboy-opening1.png';
     this.img_cowboy_shadow_opening1 = new Image();
     this.img_cowboy_shadow_opening1.src = '../assets/cowboy-shadow-opening1.png';
+    this.img_cowboy_dead = new Image();
+    this.img_cowboy_dead.src = '../assets/cowboy-dead.png';
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
@@ -46,6 +48,7 @@ function Game(enemyAI) {
 
     // --sound effects
     this.sfx_gunfire = new Audio('../assets/sound/sfx/gun_fire.wav');
+    this.sfx_draw = new Audio('../assets/sound/sfx/draw.mp3');
 
     // --shootout variables
     this.initialShootCountdown = 15;
@@ -127,6 +130,7 @@ function Game(enemyAI) {
             // music and allow the player to shoot.
             if(this.shootCountdown == 0) {
                 this.bgMusic.pause();
+                this.sfx_draw.play();
                 this.readyToShoot = true;
 
                 //this.shootCountdown--;
@@ -221,12 +225,19 @@ function Game(enemyAI) {
 
         // The player has been defeated.
         if(this.states[this.state].name == 'defeat') {
-
+            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
+            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+            // Draw the cowboy.
+            this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
         }
 
         // The player is victorious.
         if(this.states[this.state].name == 'victory') {
-
+            // Draw the background.
+            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
+            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+            // Draw the cowboy.
+            this.context.drawImage(this.img_cowboy_dead, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 43);
         }
     }
 
