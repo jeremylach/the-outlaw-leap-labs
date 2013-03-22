@@ -21,7 +21,7 @@ function Game(enemyAI) {
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
-    this.state = 1;
+    this.state = 0;
 
     // --images
     this.img_bg = new Image();
