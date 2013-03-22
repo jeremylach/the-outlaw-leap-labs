@@ -19,22 +19,24 @@
     <div id="winner"></div>
     <button class='button'>SHOOT!</button>
 
+    <button id="reset">Reset!</button>
+
 </div>
 
 
 </body>
 </html>
 <script type="text/javascript" src="js/lib/jquery-1.9.0.min.js"></script>
-<script type="text/javascript" src="js/leap.js"></script>
+<!--<script type="text/javascript" src="js/leap.js"></script>-->
 <script type="text/javascript" src="js/engine.js"></script>
-<script type="text/javascript" src="js/quickdraw.js"></script>
+<!--<script type="text/javascript" src="js/quickdraw.js"></script>-->
 
 
 <!--<script type="text/javascript" src="node_modules/socket.io/socket.io.js"></script>-->
 <script src="/socket.io/socket.io.js"></script>
 <script>
     //var socket = io.connect('http://108.171.187.43:8080/');
-    var socket = io.connect("http://leap-labs.localhost.com:8080/");
+    /*var socket = io.connect("http://leap-labs.localhost.com:8080/");
 
     socket.on("status_update",function(data){
         $("#status").append(data.txt+"<br/>");
@@ -46,11 +48,24 @@
         alert("you lost");
     });
 
+    /*socket.on("game_time_update", function(data) {
+        alert("123");
+        $("#shootoutcountdown").html(data.time);
+    });*/
+/*
+    socket.on('timer', function (data) {
+        $('#shootoutcountdown').html(data.countdown);
+    });
+
+    $('#reset').click(function() {
+        socket.emit('reset');
+    });
+
     $(".button").click(function(){
         var name = "Jeremy";//$("#username").val();
 
         //$("#msgbox").append("Ping server<br>");
         //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
         socket.emit("user_fired",{username: name});
-    });
+    });*/
 </script>
