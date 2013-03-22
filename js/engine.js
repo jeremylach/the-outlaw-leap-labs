@@ -285,6 +285,10 @@ function Game(enemyAI) {
         gameRef = this;
         this.gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
         socket.emit("start_game", {gametime: this.initialShootCountdown});
+        //if(your_name == "noname") {
+            socket.emit("get_name");
+        //}
+
     }
 
     // Stop the game.
@@ -303,14 +307,14 @@ function Game(enemyAI) {
 var game = new Game(true);
 
 var socket;
-var your_name;
-var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy"];
+var your_name = "noname";
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry"];
 
 // When the document is ready
 $(document).ready(function() {
-    var random_idx = Math.floor(Math.random() * names.length);
-    your_name = names[random_idx];
-    $("#name").val(your_name);
+    //var random_idx = Math.floor(Math.random() * names.length);
+    //your_name = names[random_idx];
+    //$("#name").val(your_name);
 
 //    names = names.splice(random_idx, 1);
 
@@ -320,6 +324,13 @@ $(document).ready(function() {
     } else {
         socket = io.connect("http://108.171.187.43:8080/");
     }
+
+    socket.on("assign_name", function(data) {
+       //if(your_name == "noname") {
+           your_name = data.name;
+           $("#name").val(your_name);
+       //}
+    });
 
 
     socket.on("status_update",function(data){
