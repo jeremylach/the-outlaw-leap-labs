@@ -22,7 +22,7 @@ function Game(enemyAI) {
         {name:'defeat'},
         {name:'victory'}
     ];
-    this.state = 0;
+    this.state = 1;
 
     // --images
     this.img_bg = new Image();
@@ -116,6 +116,7 @@ function Game(enemyAI) {
 
         }
 
+
         // The shootout update handlers.
         if(this.states[this.state].name == 'shootout') {
             $('#shootoutcountdown').html(this.shootCountdown);
@@ -133,8 +134,6 @@ function Game(enemyAI) {
             } else if(this.shootCountdown > 0) {
                 //this.shootCountdown--;
             }
-
-            //socket.emit("game_time_update",{time: this.shootCountdown});
 
             // If the enemy is under AI control.
             if(this.enemyAI && this.readyToShoot) {
@@ -167,12 +166,14 @@ function Game(enemyAI) {
 
         // The player has been defeated.
         if(this.states[this.state].name == 'defeat') {
-
+            alert("You lost!");
+            this.stop();
         }
 
         // The player is victorious.
         if(this.states[this.state].name == 'victory') {
-
+            alert("You won!");
+            this.stop();
         }
     }
 
@@ -234,7 +235,7 @@ function Game(enemyAI) {
     this.run = function() {
 
         gameRef = this;
-        var gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
+        this.gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
         socket.emit("start_game", {gametime: this.initialShootCountdown});
     }
 
@@ -245,6 +246,8 @@ function Game(enemyAI) {
             clearInterval(this.gameInterval);
             this.gameInterval = null;
         }
+
+        //socket.emit("end_game");
     }
 }
 
@@ -252,19 +255,24 @@ function Game(enemyAI) {
 var game = new Game(true);
 
 var socket;
+var your_name;
+
+
 // When the document is ready
-$(document).ready(function(){
+$(document).ready(function() {
+    your_name = $("#name").val();
+
     socket = io.connect("http://leap-labs.localhost.com:8080/");
 
     socket.on("status_update",function(data){
         $("#status").append(data.txt+"<br/>");
     });
 
-    socket.on("outcome", function(data) {
+    /*socket.on("you_lose", function(data) {
         console.log(data);
         $("#winner").html(data.txt);
         alert("you lost");
-    });
+    });*/
 
     socket.on('timer', function (data) {
         game.shootCountdown = data.countdown;
@@ -275,12 +283,19 @@ $(document).ready(function(){
         socket.emit('reset', {gametime : 100});
     });
 
-    $(".button").click(function(){
-        var name = "Jeremy";//$("#username").val();
+    socket.on("gameover", function(data) {
+       if(data.winner == your_name) {
+            game.state = 3;
+       } else {
+            game.state = 2;
+       }
 
+    });
+
+    $(".button").click(function(){
         //$("#msgbox").append("Ping server<br>");
         //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
-        socket.emit("user_fired",{username: name});
+        socket.emit("user_fired", {username : your_name});
     });
     // Create a new game and run it.
     game.run();

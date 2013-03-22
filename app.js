@@ -12,26 +12,30 @@ var server = app.listen(8080);
 var io = socket.listen(server);
 
 var countdown = -1;
-
+var game_in_progress = false;
 
 io.sockets.on('connection', function (socket) {
     console.log("connnect");
 
 
     socket.on("start_game", function(data) {
-        countdown = data.gametime;
-        var timer_interval = setInterval(function() {
-            if(countdown < 0) {
-                clearInterval(timer_interval);
-            }
-            countdown--;
-            io.sockets.emit('timer', { countdown: countdown });
-        }, 1000);
+
+        if(!game_in_progress) {
+            game_in_progress = true;
+            countdown = data.gametime;
+            var timer_interval = setInterval(function() {
+                if(countdown < 0) {
+                    clearInterval(timer_interval);
+                }
+                countdown--;
+                io.sockets.emit('timer', { countdown: countdown });
+            }, 1000);
+        }
     });
+    /*socket.on("end_game", function(data) {
+        clearInterval(timer_interval);
+    });*/
 
-
-    //console.log("test123");
-    console.log("HEYO: " + __dirname);
     socket.on('disconnect', function (socket) {
         console.log("disconnect");
     });
@@ -52,7 +56,10 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('user_fired', function (data) {
         //console.log("user did a fire");
-        socket.send("outcome",{txt: data.username + " won"});
+        winner = data.username;
+        io.sockets.emit("gameover", {winner: data.username});
+
+        //socket.emit("outcome",{txt: data.username + " won"});
     });
     //socket.emit("user_fired",{username: "test" , action: "fired" });
 });
