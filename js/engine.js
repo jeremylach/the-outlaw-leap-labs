@@ -13,14 +13,14 @@ function Game(enemyAI) {
     this.bgMusic.loop = true;
     this.bgMusic.play();
 
-    this.shootCountdown = 300;
+    this.shootCountdown = 600;
     this.readyToShoot = false;
 
     this.playerShootInput = false;
     this.playerShot = false;
 
     this.enemyAI = enemyAI;
-    this.enemyShootCountdown = 90; // For AI
+    this.enemyShootCountdown = 200; // For AI
     this.enemyShootInput = false;
     this.enemyShot = false;
 
@@ -55,6 +55,11 @@ function Game(enemyAI) {
     // Update the game for one tick of the world time.
     this.update = function() {
 
+        $('#shootoutcountdown').html(this.shootCountdown);
+        $('#playershot').html(this.playerShot);
+        $('#enemyshootcountdown').html(this.enemyShootCountdown);
+        $('#enemyshot').html(this.enemyShot);
+
         // If the shoot countdown is over, stop the
         // music and allow the player to shoot.
         if(this.shootCountdown <= 0) {
@@ -66,7 +71,7 @@ function Game(enemyAI) {
         }
 
         // If the enemy is under AI control.
-        if(this.enemyAI) {
+        if(this.enemyAI && this.readyToShoot) {
 
             // If the enemy is ready to shoot, make them shoot.
             if(this.enemyShootCountdown <= 0) {
@@ -107,7 +112,8 @@ function Game(enemyAI) {
     // Run the game.
     this.run = function() {
 
-        var gameInterval = setInterval(this.gameLoop, 1000 / Game.fps);
+        gameRef = this;
+        var gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
     }
 
     // Stop the game.
@@ -125,5 +131,5 @@ $(document).ready(function(){
 
     // Create a new game and run it.
     var game = new Game(true);
-    //game.run();
+    game.run();
 });
