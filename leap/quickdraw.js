@@ -4,7 +4,14 @@
 			status = document.getElementById('status'),
 			directionElem = document.getElementById('direction'),
 			pointing = false,
-			controllerOptions = {enableGestures: false};
+			controllerOptions = {enableGestures: false},
+			waggleTolerance = {
+				minX : -.1,
+				maxX : .1,
+				minY : -.1,
+				maxY : .1
+			}
+
 
 		function wLog(message) {
 			log.innerHTML += '<p>' + message + '</p>';	
@@ -17,7 +24,6 @@
 			// log.removeChild(firstItem);
 			log.innerHTML = '';
 		}
-
 
 		function wStatus(message) {
 			status.innerHTML = '<p>' + message + '</p>';		
@@ -36,6 +42,25 @@
 			directionElem.innerHTML += " <b>X:</b> " + roundToOne(direction[0]);
 			directionElem.innerHTML += " <b>Y:</b> " + roundToOne(direction[1]);
 			directionElem.innerHTML += " <b>Z:</b> " + roundToOne(direction[2]);
+		}
+
+		function checkWaggle(direction) {
+			// In a perfect world, if the user is pointing directly at the screen, X would be 0 and Y would be 0.
+			var passX,
+				passY;
+			if (direction[0] >= waggleTolerance.minX && direction[0] <= waggleTolerance.maxX) {
+				passX = true;
+			} else {
+				passX = false;
+				
+			}
+			if (direction[0] >= waggleTolerance.minY && direction[0] <= waggleTolerance.maxY) {
+				passY = true;
+			} else {
+				passY = false;
+			}
+			wLog('waggle X: ' + passX + ' waggle Y: ' + passY);
+			return (passX && passY);
 		}
 
 		wLog('Let\'s Ride!');
@@ -59,7 +84,8 @@
 			if (frame.pointables.length === 1) {
 				gunFinger = frame.pointables[0];
 				wDirection(gunFinger.direction);
-				if (!pointing) {
+
+				if (!pointing && checkWaggle(gunFinger.direction)) {
 					wLog('BANG!');
 				}
 			}
