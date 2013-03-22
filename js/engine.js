@@ -68,8 +68,10 @@ function Game(enemyAI) {
         if(this.readyToShoot){
             this.playerShootInput = true;
 
+            var name = "Jeremy";
             //Register shot on server
             //socket.emit("user_fired",{username: "test"});
+            socket.emit("user_fired", {username: name});
 
 
         // The player is not allowed to shoot.
