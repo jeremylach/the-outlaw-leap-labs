@@ -32,9 +32,9 @@ io.sockets.on('connection', function (socket) {
             }, 1000);
         }
     });
-    /*socket.on("end_game", function(data) {
-        clearInterval(timer_interval);
-    });*/
+    socket.on("end_game", function(data) {
+        game_in_progress = false;
+    });
 
     socket.on('disconnect', function (socket) {
         console.log("disconnect");

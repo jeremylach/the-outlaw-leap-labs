@@ -253,7 +253,7 @@ function Game(enemyAI) {
             this.gameInterval = null;
         }
 
-        //socket.emit("end_game");
+        socket.emit("end_game");
     }
 }
 
