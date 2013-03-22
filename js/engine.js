@@ -48,7 +48,8 @@ function Game(enemyAI) {
     this.sfx_gunfire = new Audio('../assets/sound/sfx/gun_fire.wav');
 
     // --shootout variables
-    this.shootCountdown = 600;
+    this.initialShootCountdown = 15;
+    this.shootCountdown = null;
     this.readyToShoot = false;
 
     this.playerShootInput = false;
@@ -114,11 +115,13 @@ function Game(enemyAI) {
             if(this.shootCountdown == 0) {
                 this.bgMusic.pause();
                 this.readyToShoot = true;
-                this.shootCountdown--;
+                //this.shootCountdown--;
             // Otherwise, continue counting down.
             } else if(this.shootCountdown > 0) {
-                this.shootCountdown--;
+                //this.shootCountdown--;
             }
+
+            //socket.emit("game_time_update",{time: this.shootCountdown});
 
             // If the enemy is under AI control.
             if(this.enemyAI && this.readyToShoot) {
@@ -205,6 +208,7 @@ function Game(enemyAI) {
 
         gameRef = this;
         var gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
+        socket.emit("start_game", {gametime: this.initialShootCountdown});
     }
 
     // Stop the game.
@@ -220,9 +224,39 @@ function Game(enemyAI) {
 // Define the game as a global variable.
 var game = new Game(true);
 
+var socket;
 // When the document is ready
 $(document).ready(function(){
+    socket = io.connect("http://leap-labs.localhost.com:8080/");
 
+    socket.on("status_update",function(data){
+        $("#status").append(data.txt+"<br/>");
+    });
+
+    socket.on("outcome", function(data) {
+        console.log(data);
+        $("#winner").html(data.txt);
+        alert("you lost");
+    });
+
+    socket.on('timer', function (data) {
+        game.shootCountdown = data.countdown;
+        //$('#shootoutcountdown').html(data.countdown);
+    });
+
+    $('#reset').click(function() {
+        socket.emit('reset', {gametime : 100});
+    });
+
+    $(".button").click(function(){
+        var name = "Jeremy";//$("#username").val();
+
+        //$("#msgbox").append("Ping server<br>");
+        //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
+        socket.emit("user_fired",{username: name});
+    });
     // Create a new game and run it.
     game.run();
+
+
 });
