@@ -1,0 +1,38 @@
+<!--hello!
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://activityfeed.localhost.com:3000');
+    socket.on('news', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+    });
+</script>-->
+
+
+
+<h1>Express 3.0 + Socket.IO Test</h1>
+
+<hr>
+
+<input id="username" />
+<div id="status"></div>
+
+<button class='button' data-color='blue' style='background-color: blue;'>Blue</button>
+<button class='button' data-color='red' style='background-color: red;'>Red</button>
+<button class='button' data-color='green' style='background-color: green;'>Green</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://108.171.187.43:8080/');
+
+    socket.on("status_update",function(data){
+        $("#status").append(data.txt+"<br/>");
+    });
+
+    $(".button").click(function(){
+        var name = $("#username").val();
+        //$("#msgbox").append("Ping server<br>");
+        socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
+    });
+</script>
