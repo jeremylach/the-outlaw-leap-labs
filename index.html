@@ -6,8 +6,34 @@
 <body>
 <div id="content">
     <canvas id="viewport" width="900" height="500"></canvas>
+    <input id="username" />
+    <div id="status"></div>
+
+    <button class='button' data-color='blue' style='background-color: blue;'>Blue</button>
+    <button class='button' data-color='red' style='background-color: red;'>Red</button>
+    <button class='button' data-color='green' style='background-color: green;'>Green</button>
 </div>
+
+
 </body>
 </html>
 <script type="text/javascript" src="js/lib/jquery-1.9.0.min.js"></script>
 <script type="text/javascript" src="js/engine.js"></script>
+<script type="text/javascript" src="/jeremy/public/js/engine.js"></script>
+
+
+<script src="/node_modules/socket.io/socket.io.js"></script>
+<script>
+    //var socket = io.connect('http://108.171.187.43:8080/');
+    var socket = io.connect("http://leap-labs.localhost.com:8080/");
+
+    socket.on("status_update",function(data){
+        $("#status").append(data.txt+"<br/>");
+    });
+
+    $(".button").click(function(){
+        var name = $("#username").val();
+        //$("#msgbox").append("Ping server<br>");
+        socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
+    });
+</script>
