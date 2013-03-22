@@ -10,6 +10,15 @@
 			log.innerHTML += '<p>' + message + '</p>';	
 		}
 
+		function cleanLog() {
+			// var firstItem = log.querySelectorAll('p:first-child');
+			// console.log(firstItem);
+			// firstItem.innerHTML = 'Cleaned';
+			// log.removeChild(firstItem);
+			log.innerHTML = '';
+		}
+
+
 		function wStatus(message) {
 			status.innerHTML = '<p>' + message + '</p>';		
 		}
@@ -31,6 +40,8 @@
 
 		wLog('Let\'s Ride!');
 
+		var logTimeout = window.setInterval(cleanLog, 5000);
+
 		Leap.loop(controllerOptions, function(frame) {
 			var status = '',
 				gunFinger;
@@ -50,7 +61,6 @@
 				wDirection(gunFinger.direction);
 				if (!pointing) {
 					wLog('BANG!');
-					console.dir(gunFinger.direction);
 				}
 			}
 
