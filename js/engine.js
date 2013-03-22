@@ -238,7 +238,7 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
-            this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 90,
+            this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 75,
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * .38);
         }
 
@@ -248,7 +248,7 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
-            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 90,
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 75,
                 this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
 
