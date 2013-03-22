@@ -22,7 +22,7 @@ function Game(enemyAI) {
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
-    this.state = 1;
+    this.state = 0; // Title
 
     // --images
     this.img_bg = new Image();
@@ -208,6 +208,9 @@ function Game(enemyAI) {
 
         if(this.states[this.state].name == 'title') {
             this.context.drawImage(this.img_title, 0,0);
+            // TODO: do this once, instead of on every draw.
+            $('#menu').show();
+            $('#start').show();
         }
 
         // The first part of the opening is occurring.
@@ -223,6 +226,9 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_cowboy_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_opening1.width / 2), (VIEWPORT_HEIGHT / 2) - this.img_cowboy_opening1.height);
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - 2,
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * (1 - (.5 * (frame / length))));
+
+            $('#menu').hide();
+            $('#start').hide();
         }
 
         // The standoff update handlers.
@@ -347,6 +353,12 @@ $(document).ready(function() {
         //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
         socket.emit("user_fired", {username : your_name});
     });
+
+    $('#start').click(function (e){
+        e.preventDefault();
+        game.setStateByName('opening1');
+    });
+
     // Create a new game and run it.
     game.run();
 
