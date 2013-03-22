@@ -115,9 +115,11 @@ function Game(enemyAI) {
                 this.bgMusic.pause();
                 this.readyToShoot = true;
                 this.shootCountdown--;
+                $('#message').text('Shoot!');
             // Otherwise, continue counting down.
             } else if(this.shootCountdown > 0) {
                 this.shootCountdown--;
+                $('#message').text('Ready, set...');
             }
 
             // If the enemy is under AI control.
@@ -137,6 +139,7 @@ function Game(enemyAI) {
             if(this.playerShootInput && this.playerShot == false && this.enemyShot == false) {
                 this.playerShot = true;
                 this.sfx_gunfire.play();
+                this.state = 'victory';
                 // TODO: kill the enemy
             }
 
@@ -145,18 +148,19 @@ function Game(enemyAI) {
                 // do something
                 this.enemyShot = true;
                 this.sfx_gunfire.play();
+                this.state = 'defeat';
                 // TODO: kill the player
             }
         }
 
         // The player has been defeated.
         if(this.state == 'defeat') {
-
+            $('#message').text('You lost');
         }
 
         // The player is victorious.
         if(this.state == 'victory') {
-
+            $('#message').text('You win!');
         }
     }
 
@@ -171,20 +175,23 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20)
         }
 
-        // The shootout is active.
-        if(this.state == 'shootout') {
-
+        // Base gameplay elements - for shootout, victory, and defeat.
+        if( this.state == 'shootout' || this.state == 'defeat' || this.state == 'victory' ) {
             // Draw the background.
             this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
 
+        }
+
+        // The shootout is active.
+        if(this.state == 'shootout') {
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
         }
 
         // The player has been defeated.
         if(this.state == 'defeat') {
-
+            
         }
 
         // The player is victorious.
