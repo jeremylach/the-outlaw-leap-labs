@@ -20,9 +20,16 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.emit("status_update",{txt:"Connected to server"});
-    socket.on('user_action', function (data) {
+
+    /*socket.on('user_action', function (data) {
         console.log("User clicked: " + data.txt);
 
         socket.broadcast.emit("status_update",{txt: data.username + " clicked " + data.txt});
+    });*/
+
+    socket.on('user_fired', function (data) {
+        //console.log("user did a fire");
+        socket.send("outcome",{txt: data.username + " won"});
     });
+    //socket.emit("user_fired",{username: "test" , action: "fired" });
 });

@@ -15,6 +15,10 @@
 
     <canvas id="viewport" width="1000" height="700"></canvas>
 
+    <div id="status"></div>
+    <div id="winner"></div>
+    <button class='button'>SHOOT!</button>
+
 </div>
 
 
@@ -36,9 +40,17 @@
         $("#status").append(data.txt+"<br/>");
     });
 
+    socket.on("outcome", function(data) {
+        console.log(data);
+       $("#winner").html(data.txt);
+        alert("you lost");
+    });
+
     $(".button").click(function(){
-        var name = $("#username").val();
+        var name = "Jeremy";//$("#username").val();
+
         //$("#msgbox").append("Ping server<br>");
-        socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
+        //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
+        socket.emit("user_fired",{username: name});
     });
 </script>

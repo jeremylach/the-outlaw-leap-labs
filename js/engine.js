@@ -15,13 +15,13 @@ function Game(enemyAI) {
     this.gameInterval = null;
 
     // --game state variables
-    /*this.states = [
+    this.states = [
         {name:'opening1'},
         {name:'shootout'},
         {name:'defeat'},
         {name:'victory'}
-    ];*/
-    this.state = 'shootout';//this.states[0].name;
+    ];
+    this.state = this.states[1].name;
 
     // --images
     this.img_bg = new Image();
@@ -68,6 +68,8 @@ function Game(enemyAI) {
         if(this.readyToShoot){
             this.playerShootInput = true;
             console.log('shot');
+            //Register shot on server
+            //socket.emit("user_fired",{username: "test"});
         // The player is not allowed to shoot.
         } else {
             //TODO: player fired before ready
@@ -157,6 +159,9 @@ function Game(enemyAI) {
     // Render the current state of the game to the viewport.
     this.draw = function() {
 
+        // Draw the sky background.
+        this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+
         // The first part of the opening is occurring.
         if(this.state == 'opening1') {
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20)
@@ -164,10 +169,11 @@ function Game(enemyAI) {
 
         // The shootout is active.
         if(this.state == 'shootout') {
+
             // Draw the background.
-            this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
             this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
         }
@@ -207,12 +213,13 @@ function Game(enemyAI) {
     }
 }
 
-var game;
+// Define the game as a global variable.
+var game = new Game(true);
 
 // When the document is ready
 $(document).ready(function(){
 
     // Create a new game and run it.
-    var game = new Game(true);
+    game = new Game(true);
     game.run();
 });

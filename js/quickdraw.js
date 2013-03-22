@@ -50,7 +50,7 @@
 
 				if (!pointing && checkWaggle(gunFinger.direction) && !reloading) {
 					// Call shoot event.
-					//Game.playerShoot();
+					game.playerShoot();
 					reloading = true;
 					reloadTimeout = window.setTimeout(function() {
 						reloading = false;
