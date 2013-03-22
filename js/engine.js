@@ -17,7 +17,7 @@ function Game(enemyAI) {
     // --game state variables
     this.states = [
         {name:'opening1', length: 600, frame: 0},
-        {name:'standoff'},
+        //{name:'standoff'},
         {name:'shootout'},
         {name:'defeat'},
         {name:'victory'}
@@ -101,6 +101,13 @@ function Game(enemyAI) {
         // The first part of the opening is occurring.
         if(this.states[this.state].name == 'opening1') {
 
+            // If the frames have been completed, change the state.
+            if(this.states[this.state].frame >= this.states[this.state].length) {
+                this.state++;
+            // Otherwise, step to the next frame.
+            } else {
+                this.states[this.state].frame++;
+            }
         }
 
         // The standoff update handlers.
@@ -179,7 +186,7 @@ function Game(enemyAI) {
             frame = this.states[this.state].frame;
 
             // Draw the background.
-            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
+            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4) + (180 * (1 - (frame / length))));
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2 - 80);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_opening1.width / 2), (VIEWPORT_HEIGHT / 2) - this.img_cowboy_opening1.height);
