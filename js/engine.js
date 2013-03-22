@@ -15,10 +15,7 @@ function Game(enemyAI) {
     this.gameInterval = null;
 
     // --game state variables
-    this.state_opening1 = false;
-    this.state_shootout = true;
-    this.state_defeat = false;
-    this.state_victory = false;
+    this.state = 'shootout';
 
     // --images
     this.img_bg = new Image();
@@ -83,12 +80,12 @@ function Game(enemyAI) {
     this.update = function() {
 
         // The first part of the opening is occurring.
-        if(this.state_opening1) {
+        if(this.state == 'opening1') {
 
         }
 
         // The shootout update handlers.
-        if(this.state_shootout) {
+        if(this.state == 'shootout') {
             $('#shootoutcountdown').html(this.shootCountdown);
             $('#playershot').html(this.playerShot);
             $('#enemyshootcountdown').html(this.enemyShootCountdown);
@@ -135,12 +132,12 @@ function Game(enemyAI) {
         }
 
         // The player has been defeated.
-        if(this.state_defeat) {
+        if(this.state == 'defeat') {
 
         }
 
         // The player is victorious.
-        if(this.state_victory) {
+        if(this.state == 'victory') {
 
         }
     }
@@ -149,12 +146,12 @@ function Game(enemyAI) {
     this.draw = function() {
 
         // The first part of the opening is occurring.
-        if(this.state_opening1) {
+        if(this.state == 'opening1') {
 
         }
 
         // The shootout is active.
-        if(this.state_shootout) {
+        if(this.state == 'shootout') {
             // Draw the background.
             this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
             this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
@@ -164,12 +161,12 @@ function Game(enemyAI) {
         }
 
         // The player has been defeated.
-        if(this.state_defeat) {
+        if(this.state == 'defeat') {
 
         }
 
         // The player is victorious.
-        if(this.state_victory) {
+        if(this.state == 'victory') {
 
         }
     }
