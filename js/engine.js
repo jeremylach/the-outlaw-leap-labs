@@ -19,8 +19,7 @@ function Game(enemyAI) {
         {name:'opening1', length: 600, frame: 0},
         //{name:'standoff'},
         {name:'shootout'},
-        {name:'defeat'},
-        {name:'victory'}
+        {name:'defeat'}, {name:'victory'}
     ];
     this.state = 1;
 
@@ -129,10 +128,13 @@ function Game(enemyAI) {
             if(this.shootCountdown == 0) {
                 this.bgMusic.pause();
                 this.readyToShoot = true;
-                //this.shootCountdown--;
+
+                this.shootCountdown--;
+                $('#message').text('Shoot!');
             // Otherwise, continue counting down.
             } else if(this.shootCountdown > 0) {
-                //this.shootCountdown--;
+                this.shootCountdown--;
+                $('#message').text('Ready, set...');
             }
 
             // If the enemy is under AI control.
@@ -152,6 +154,7 @@ function Game(enemyAI) {
             if(this.playerShootInput && this.playerShot == false && this.enemyShot == false) {
                 this.playerShot = true;
                 this.sfx_gunfire.play();
+                this.state = 3;
                 // TODO: kill the enemy
             }
 
@@ -160,20 +163,23 @@ function Game(enemyAI) {
                 // do something
                 this.enemyShot = true;
                 this.sfx_gunfire.play();
+                this.state = 2;
                 // TODO: kill the player
             }
         }
 
-        // The player has been defeated.
+        // The player is victorious.
         if(this.states[this.state].name == 'defeat') {
-            alert("You lost!");
             this.stop();
+
+            $('#message').text('You lost');
         }
 
         // The player is victorious.
         if(this.states[this.state].name == 'victory') {
-            alert("You won!");
             this.stop();
+
+            $('#message').text('You win!');
         }
     }
 
