@@ -107,6 +107,10 @@ function Game(enemyAI) {
     // Update the game for one tick of the world time.
     this.update = function() {
 
+        if(this.states[this.state].name == 'title') {
+            
+        }
+
         // The first part of the opening is occurring.
         if(this.states[this.state].name == 'opening1') {
 
