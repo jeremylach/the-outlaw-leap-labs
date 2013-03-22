@@ -210,6 +210,7 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_title, 0,0);
             // TODO: do this once, instead of on every draw.
             $('#menu').show();
+            $('#instructions').show();
             $('#start').show();
         }
 
@@ -228,6 +229,7 @@ function Game(enemyAI) {
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * (1 - (.5 * (frame / length))));
 
             $('#menu').hide();
+            $('#instructions').hide();
             $('#start').hide();
         }
 
