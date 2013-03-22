@@ -16,12 +16,13 @@ function Game(enemyAI) {
 
     // --game state variables
     this.states = [
+        {name: 'title'},
         {name:'opening1', length: 600, frame: 0},
         //{name:'standoff'},
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
-    this.state = 0;
+    this.state = 1;
 
     // --images
     this.img_bg = new Image();
@@ -204,6 +205,10 @@ function Game(enemyAI) {
 
         // Draw the sky background.
         this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+
+        if(this.states[this.state].name == 'title') {
+            this.context.drawImage(this.img_title, 0,0);
+        }
 
         // The first part of the opening is occurring.
         if(this.states[this.state].name == 'opening1') {
