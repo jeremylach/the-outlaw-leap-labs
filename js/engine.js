@@ -220,6 +220,5 @@ var game = new Game(true);
 $(document).ready(function(){
 
     // Create a new game and run it.
-    game = new Game(true);
     game.run();
 });
