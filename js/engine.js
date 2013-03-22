@@ -37,6 +37,8 @@ function Game(enemyAI) {
     this.img_cowboy_shadow_opening1.src = '../assets/cowboy-shadow-opening1.png';
     this.img_cowboy_dead = new Image();
     this.img_cowboy_dead.src = '../assets/cowboy-dead.png';
+    this.img_cowboy_dead_shadow = new Image();
+    this.img_cowboy_dead_shadow.src = '../assets/cowboy-dead-shadow.png';
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
@@ -222,7 +224,7 @@ function Game(enemyAI) {
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 18 - this.img_cowboy_opening1.height,
-                this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * .5);
+                this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * .38);
         }
 
         // The player has been defeated.
@@ -231,6 +233,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - this.img_cowboy.height,
+                this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
 
         // The player is victorious.
