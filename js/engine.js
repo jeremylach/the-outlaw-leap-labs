@@ -129,11 +129,11 @@ function Game(enemyAI) {
                 this.bgMusic.pause();
                 this.readyToShoot = true;
 
-                this.shootCountdown--;
+                //this.shootCountdown--;
                 $('#message').text('Shoot!');
             // Otherwise, continue counting down.
             } else if(this.shootCountdown > 0) {
-                this.shootCountdown--;
+               // this.shootCountdown--;
                 $('#message').text('Ready, set...');
             }
 
