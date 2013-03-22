@@ -221,12 +221,16 @@ function Game(enemyAI) {
 
         // The player has been defeated.
         if(this.states[this.state].name == 'defeat') {
-
+            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
+            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+            // Draw the cowboy.
+            this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
         }
 
         // The player is victorious.
         if(this.states[this.state].name == 'victory') {
-
+            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
+            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
         }
     }
 
