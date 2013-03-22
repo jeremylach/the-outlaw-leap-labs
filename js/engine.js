@@ -1,18 +1,34 @@
+var VIEWPORT_WIDTH = 1000;
+var VIEWPORT_HEIGHT = 700;
+
 // The game object.
 function Game(enemyAI) {
 
     //------ Member Variables ------//
 
+    // --viewport variables
     this.canvas = document.getElementById('viewport');
     this.context = this.canvas.getContext('2d');
 
+    // --game loop variables
     this.fps = 30;
     this.gameInterval = null;
 
-    this.bgMusic = new Audio('../assets/sound/western_music.mp3');
+    // --images
+    this.img_bg = new Image();
+    this.img_bg.src = '../assets/bg-sky.png';
+    this.img_bg_sun = new Image();
+    this.img_bg_sun.src = '../assets/bg-sun.png';
+
+    // --background music
+    this.bgMusic = new Audio('../assets/sound/music/western_music.mp3');
     this.bgMusic.loop = true;
     this.bgMusic.play();
 
+    // --sound effects
+    this.sfx_gunfire = new Audio('../assets/sound/sfx/gun_fire.wav');
+
+    // --shootout variables
     this.shootCountdown = 600;
     this.readyToShoot = false;
 
@@ -85,6 +101,7 @@ function Game(enemyAI) {
         // If the player has shot first, kill the enemy.
         if(this.playerShootInput && this.playerShot == false && this.enemyShot == false) {
             this.playerShot = true;
+            this.sfx_gunfire.play();
             // TODO: kill the enemy
         }
 
@@ -92,6 +109,7 @@ function Game(enemyAI) {
         if(this.enemyShootInput && this.playerShot == false && this.enemyShot == false) {
             // do something
             this.enemyShot = true;
+            this.sfx_gunfire.play();
             // TODO: kill the player
         }
     }
@@ -99,7 +117,9 @@ function Game(enemyAI) {
     // Render the current state of the game to the viewport.
     this.draw = function() {
 
-        //TODO
+        // Draw the background.
+        this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        this.context.drawImage(this.img_bg_sun, 0, 0);
     }
 
     // The main game loop; updates and draws.
@@ -131,5 +151,6 @@ $(document).ready(function(){
 
     // Create a new game and run it.
     var game = new Game(true);
+
     game.run();
 });
