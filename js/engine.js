@@ -262,13 +262,23 @@ var game = new Game(true);
 
 var socket;
 var your_name;
-
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy"];
 
 // When the document is ready
 $(document).ready(function() {
-    your_name = $("#name").val();
+    var random_idx = Math.floor(Math.random() * names.length);
+    your_name = names[random_idx];
+    $("#name").val(your_name);
 
-    socket = io.connect("http://leap-labs.localhost.com:8080/");
+//    names = names.splice(random_idx, 1);
+
+
+    if(window.location.href.indexOf("leap-labs.localhost") != -1) {
+        socket = io.connect("http://leap-labs.localhost.com:8080/");
+    } else {
+        socket = io.connect("http://108.171.187.43:8080/");
+    }
+
 
     socket.on("status_update",function(data){
         $("#status").append(data.txt+"<br/>");
