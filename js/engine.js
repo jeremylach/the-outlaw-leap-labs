@@ -15,7 +15,13 @@ function Game(enemyAI) {
     this.gameInterval = null;
 
     // --game state variables
-    this.state = 'shootout';
+    /*this.states = [
+        {name:'opening1'},
+        {name:'shootout'},
+        {name:'defeat'},
+        {name:'victory'}
+    ];*/
+    this.state = 'shootout';//this.states[0].name;
 
     // --images
     this.img_bg = new Image();
@@ -24,6 +30,11 @@ function Game(enemyAI) {
     this.img_bg_sun.src = '../assets/bg-sun.png';
     this.img_bg_ground = new Image();
     this.img_bg_ground.src = '../assets/bg-ground.png';
+
+    this.img_cowboy_opening1 = new Image();
+    this.img_cowboy_opening1.src = '../assets/cowboy-opening1.png';
+    this.img_cowboy_shadow_opening1 = new Image();
+    this.img_cowboy_shadow_opening1.src = '../assets/cowboy-shadow-opening1.png';
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
@@ -147,7 +158,7 @@ function Game(enemyAI) {
 
         // The first part of the opening is occurring.
         if(this.state == 'opening1') {
-
+            this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20)
         }
 
         // The shootout is active.
@@ -195,11 +206,12 @@ function Game(enemyAI) {
     }
 }
 
+var game;
+
 // When the document is ready
 $(document).ready(function(){
 
     // Create a new game and run it.
     var game = new Game(true);
-
     game.run();
 });
