@@ -1,5 +1,5 @@
-var VIEWPORT_WIDTH = 1000;
-var VIEWPORT_HEIGHT = 700;
+var VIEWPORT_WIDTH = 900;
+var VIEWPORT_HEIGHT = 675;
 
 // The game object.
 function Game(enemyAI) {
@@ -16,12 +16,13 @@ function Game(enemyAI) {
 
     // --game state variables
     this.states = [
+        {name: 'title'},
         {name:'opening1', length: 600, frame: 0},
         //{name:'standoff'},
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
-    this.state = 0;
+    this.state = 0; // Title
 
     // --images
     this.img_bg = new Image();
@@ -37,9 +38,14 @@ function Game(enemyAI) {
     this.img_cowboy_shadow_opening1.src = '../assets/cowboy-shadow-opening1.png';
     this.img_cowboy_dead = new Image();
     this.img_cowboy_dead.src = '../assets/cowboy-dead.png';
+    this.img_cowboy_dead_shadow = new Image();
+    this.img_cowboy_dead_shadow.src = '../assets/cowboy-dead-shadow.png';
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
+
+    this.img_title = new Image();
+    this.img_title.src = '../assets/title.png';
 
     // --background music
     this.bgMusic = new Audio('../assets/sound/music/western_music.mp3');
@@ -64,6 +70,13 @@ function Game(enemyAI) {
     this.enemyShot = false;
 
     //------ Helper Functions ------//
+
+    // Change the state to the state with the given name.
+    this.setStateByName = function(stateName) {
+        for(var i = 0; i < this.states.length; i++) {
+            if(this.states[i].name == stateName){ this.state = i; break; }
+        }
+    }
 
     // Trigger when the player shoots.
     this.playerShoot = function() {
@@ -158,7 +171,7 @@ function Game(enemyAI) {
             if(this.playerShootInput && this.playerShot == false && this.enemyShot == false) {
                 this.playerShot = true;
                 this.sfx_gunfire.play();
-                this.state = 3;
+                this.setStateByName('victory');
                 // TODO: kill the enemy
             }
 
@@ -167,7 +180,7 @@ function Game(enemyAI) {
                 // do something
                 this.enemyShot = true;
                 this.sfx_gunfire.play();
-                this.state = 2;
+                this.setStateByName('defeat');
                 // TODO: kill the player
             }
         }
@@ -193,6 +206,14 @@ function Game(enemyAI) {
         // Draw the sky background.
         this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
+        if(this.states[this.state].name == 'title') {
+            this.context.drawImage(this.img_title, 0,0);
+            // TODO: do this once, instead of on every draw.
+            $('#menu').show();
+            $('#instructions').show();
+            $('#start').show();
+        }
+
         // The first part of the opening is occurring.
         if(this.states[this.state].name == 'opening1') {
 
@@ -206,6 +227,10 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_cowboy_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_opening1.width / 2), (VIEWPORT_HEIGHT / 2) - this.img_cowboy_opening1.height);
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - 2,
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * (1 - (.5 * (frame / length))));
+
+            $('#menu').hide();
+            $('#instructions').hide();
+            $('#start').hide();
         }
 
         // The standoff update handlers.
@@ -221,6 +246,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
+            this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 80,
+                this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * .38);
         }
 
         // The player has been defeated.
@@ -229,6 +256,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 80,
+                this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
 
         // The player is victorious.
@@ -238,6 +267,8 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy_dead, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 43);
+            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 68,
+                this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
         }
     }
 
@@ -323,9 +354,9 @@ $(document).ready(function() {
 
     socket.on("gameover", function(data) {
        if(data.winner == your_name) {
-            game.state = 3;
+           this.setStateByName('victory');
        } else {
-            game.state = 2;
+           this.setStateByName('death');
        }
 
     });
@@ -335,8 +366,12 @@ $(document).ready(function() {
         //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
         socket.emit("user_fired", {username : your_name});
     });
+
+    $('#start').click(function (e){
+        e.preventDefault();
+        game.setStateByName('opening1');
+    });
+
     // Create a new game and run it.
     game.run();
-
-
 });
