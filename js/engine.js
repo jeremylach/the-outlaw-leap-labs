@@ -1,3 +1,6 @@
+var VIEWPORT_WIDTH = 1000;
+var VIEWPORT_HEIGHT = 700;
+
 // The game object.
 function Game(enemyAI) {
 
@@ -10,6 +13,12 @@ function Game(enemyAI) {
     // --game loop variables
     this.fps = 30;
     this.gameInterval = null;
+
+    // --images
+    this.img_bg = new Image();
+    this.img_bg.src = '../assets/bg-sky.png';
+    this.img_bg_sun = new Image();
+    this.img_bg_sun.src = '../assets/bg-sun.png';
 
     // --background music
     this.bgMusic = new Audio('../assets/sound/music/western_music.mp3');
@@ -108,7 +117,9 @@ function Game(enemyAI) {
     // Render the current state of the game to the viewport.
     this.draw = function() {
 
-        //TODO
+        // Draw the background.
+        this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        this.context.drawImage(this.img_bg_sun, 0, 0);
     }
 
     // The main game loop; updates and draws.
