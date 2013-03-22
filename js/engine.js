@@ -1,5 +1,5 @@
-var VIEWPORT_WIDTH = 1000;
-var VIEWPORT_HEIGHT = 700;
+var VIEWPORT_WIDTH = 900;
+var VIEWPORT_HEIGHT = 675;
 
 // The game object.
 function Game(enemyAI) {
@@ -42,6 +42,9 @@ function Game(enemyAI) {
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
+
+    this.img_title = new Image();
+    this.img_title.src = '../assets/title.png';
 
     // --background music
     this.bgMusic = new Audio('../assets/sound/music/western_music.mp3');
