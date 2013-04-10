@@ -362,7 +362,7 @@ $(document).ready(function() {
     $(".button").click(function(){
         //$("#msgbox").append("Ping server<br>");
         //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
-        socket.emit("user_fired", {username : your_name});
+        $(document).trigger("user_fired", your_name);
     });
 
     $('#start').click(function (e){
