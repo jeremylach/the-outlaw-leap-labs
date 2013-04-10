@@ -325,14 +325,14 @@ $(document).ready(function() {
 
     $(document).on("assign_name", function(event, data) {
        //if(your_name == "noname") {
-           your_name = data.name;
+           your_name = data;
            $("#name").val(your_name);
        //}
     });
 
 
     $(document).on("status_update",function(event, data){
-        $("#status").append(data.txt+"<br/>");
+        $("#status").append(data+"<br/>");
     });
 
     /*socket.on("you_lose", function(data) {
@@ -342,7 +342,7 @@ $(document).ready(function() {
     });*/
 
     $(document).on('timer', function (event, data) {
-        game.shootCountdown = data.countdown;
+        game.shootCountdown = data;
         //$('#shootoutcountdown').html(data.countdown);
     });
 
@@ -351,7 +351,7 @@ $(document).ready(function() {
     });
 
     $(document).on("gameover", function(event, data) {
-       if(data.winner == your_name) {
+       if(data == your_name) {
            this.setStateByName('victory');
        } else {
            this.setStateByName('death');

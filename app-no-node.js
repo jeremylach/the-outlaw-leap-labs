@@ -12,7 +12,7 @@ var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", 
 
         if(!game_in_progress) {
             game_in_progress = true;
-            countdown = data.gametime;
+            countdown = data;
             var timer_interval = setInterval(function() {
                 if(countdown < 0) {
                     clearInterval(timer_interval);
@@ -49,7 +49,7 @@ var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", 
     //socket.emit("status_update",{txt:"Connected to server"});
 
     $(document).on('reset', function (event, data) {
-        countdown = data.gametime;
+        countdown = data;
         $(document).trigger('timer', countdown);
     });
 
@@ -62,8 +62,8 @@ var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", 
 
     $(document).on('user_fired', function (event, data) {
         //console.log("user did a fire");
-        winner = data.username;
-        $(document).trigger("gameover", data.username);
+        winner = data;
+        $(document).trigger("gameover", data);
 
         //socket.emit("outcome",{txt: data.username + " won"});
     });
