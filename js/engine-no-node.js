@@ -57,8 +57,9 @@ function Game(enemyAI) {
     this.sfx_draw = new Audio('../assets/sound/sfx/draw.mp3');
 
     // --shootout variables
-    this.initialShootCountdown = 15;
+    this.initialShootCountdown = Math.ceil(Math.random() * 15) + 10;
     this.shootCountdown = null;
+    this.drawReady = false;
     this.readyToShoot = false;
 
     this.playerShootInput = false;
@@ -141,8 +142,9 @@ function Game(enemyAI) {
 
             // If the shoot countdown is over, stop the
             // music and allow the player to shoot.
-            if(this.shootCountdown == 0) {
+            if(this.shootCountdown == 0 && this.drawReady == false) {
                 this.bgMusic.pause();
+                this.drawReady = true;
                 this.sfx_draw.play();
                 this.readyToShoot = true;
 
