@@ -11,8 +11,10 @@ body {
     text-align: center;
 }
 #viewport {
-    width: 900px;
-    height: 675px;
+    /*width: 900px;
+    height: 675px;*/
+	width: 100%;
+	height: auto;
 }
 .canvas-container { margin: 0 auto; }
 
@@ -20,10 +22,16 @@ h1, h2, h3, #message {
 	font-family: 'Arbutus', sans-serif;
 }
 
+#gameArea {
+	position: relative;
+}
+
 #message {
 	font-size: 30px;
-	position: relative;
-	top: -50px;
+	position: absolute;
+	bottom: 10%;
+	width: 100%;
+	text-align: center;
 	color: #2B1F17;
 }
 
@@ -36,8 +44,10 @@ h1, h2, h3, #message {
 }
 
 #menu {
-	position: relative;
-	top: -280px;
+	position: absolute;
+	bottom: 30%;
+	width: 100%;
+	text-align: center;
 }
 
 #instructions, #menu {
@@ -50,6 +60,8 @@ h1, h2, h3, #message {
 	text-transform: uppercase;
 	color: #FC9F7C;
 	display: none;
-	position: relative;
-	top: -175px;
+	position: absolute;
+	bottom: 8%;
+	text-align: center;
+	width: 100%;
 }
