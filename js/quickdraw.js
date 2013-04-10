@@ -1,4 +1,10 @@
 (function () {
+
+	// TODO: Consider redoing this to not us a global variable.
+	quickDrawFinger = {
+		pointing : false,
+		leaning : 'center' // Possible values: left, right, center
+	}
 	window.onload = function() {
 		var pointing = false,
 			controllerOptions = {enableGestures: false},
