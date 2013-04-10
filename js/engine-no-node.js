@@ -81,6 +81,10 @@ function Game(enemyAI) {
 
     // Trigger when the player shoots.
     this.playerShoot = function() {
+        if (this.state === 0) {
+            game.setStateByName('opening1');
+        }
+
 
         // The player is allowed to shoot and fires.
         if(this.readyToShoot){
