@@ -1,7 +1,12 @@
 (function () {
+
+	// TODO: Consider redoing this to not us a global variable.
+	quickDrawFinger = {
+		pointing : false,
+		leaning : 'center' // Possible values: left, right, center
+	}
 	window.onload = function() {
-		var pointing = false,
-			controllerOptions = {enableGestures: false},
+		var controllerOptions = {enableGestures: false},
 			waggleTolerance = {
 				minX : -.3,
 				maxX : .3,
@@ -37,6 +42,17 @@
 			return (passX && passY);
 		}
 
+		function updateLean(direction) {
+			var dirX = direction[0];
+			if ( dirX < (waggleTolerance.maxX / 3) && dirX > (waggleTolerance.minX / 3) ) {
+				quickDrawFinger.leaning = 'center';
+			} else if (dirX > 0) {
+				quickDrawFinger.leaning = 'right';
+			} else {
+				quickDrawFinger.leaning = 'left';
+			}
+		}
+
 		Leap.loop(controllerOptions, function(frame) {
 			var status = '',
 				gunFinger,
@@ -44,11 +60,15 @@
 
 			if (frame.pointables.length === 1) {
 				gunFinger = frame.pointables[0];
-				if (!pointing && checkWaggle(gunFinger.direction) && reloading) {
+				if (checkWaggle(gunFinger.direction)) {
+					updateLean(gunFinger.direction);
+				}
+				
+				if (!quickDrawFinger.pointing && checkWaggle(gunFinger.direction) && reloading) {
 					// Player tried to fire but was "reloading". An animation or something might go here in the future.
 				}
 
-				if (!pointing && checkWaggle(gunFinger.direction) && !reloading) {
+				if (!quickDrawFinger.pointing && checkWaggle(gunFinger.direction) && !reloading) {
 					// Call shoot event.
 					game.playerShoot();
 					reloading = true;
@@ -59,9 +79,9 @@
 			}
 
 			if (frame.pointables.length > 0) {
-				pointing = true;
+				quickDrawFinger.pointing = true;
 			} else {
-				pointing = false;
+				quickDrawFinger.pointing = false;
 			}
 		});
 	}
