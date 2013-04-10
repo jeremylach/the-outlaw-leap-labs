@@ -57,7 +57,7 @@ function Game(enemyAI) {
     this.sfx_draw = new Audio('../assets/sound/sfx/draw.mp3');
 
     // --shootout variables
-    this.initialShootCountdown = Math.ceil(Math.random() * 15) + 10;
+    this.initialShootCountdown = Math.ceil(Math.random() * 8) + 3;
     this.shootCountdown = null;
     this.drawReady = false;
     this.readyToShoot = false;
@@ -90,7 +90,6 @@ function Game(enemyAI) {
             //socket.emit("user_fired",{username: "test"});
             $(document).trigger("user_fired", name);
 
-            console.log('shot');
 
         // The player is not allowed to shoot.
         } else {
@@ -135,6 +134,11 @@ function Game(enemyAI) {
 
         // The shootout update handlers.
         if(this.states[this.state].name == 'shootout') {
+
+            if(this.shootCountdown == null) {
+                $(document).trigger("start_game", this.initialShootCountdown);
+            }
+
             $('#shootoutcountdown').html(this.shootCountdown);
             $('#playershot').html(this.playerShot);
             $('#enemyshootcountdown').html(this.enemyShootCountdown);
@@ -187,7 +191,7 @@ function Game(enemyAI) {
             }
         }
 
-        // The player is victorious.
+        // The player loses.
         if(this.states[this.state].name == 'defeat') {
             this.stop();
 
@@ -286,7 +290,6 @@ function Game(enemyAI) {
 
         gameRef = this;
         this.gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
-        $(document).trigger("start_game", this.initialShootCountdown);
         $(document).trigger("get_name");
         //socket.emit("start_game", {gametime: this.initialShootCountdown});
         //if(your_name == "noname") {
@@ -354,9 +357,9 @@ $(document).ready(function() {
 
     $(document).on("gameover", function(event, data) {
        if(data == your_name) {
-           this.setStateByName('victory');
+           game.setStateByName('victory');
        } else {
-           this.setStateByName('death');
+           game.setStateByName('death');
        }
 
     });
@@ -364,7 +367,7 @@ $(document).ready(function() {
     $(".button").click(function(){
         //$("#msgbox").append("Ping server<br>");
         //socket.emit("user_action",{username: name , txt: $(this).attr("data-color") });
-        $(document).trigger("user_fired", your_name);
+        game.playerShoot();
     });
 
     $('#start').click(function (e){
