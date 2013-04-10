@@ -87,7 +87,7 @@ function Game(enemyAI) {
             var name = "Jeremy";
             //Register shot on server
             //socket.emit("user_fired",{username: "test"});
-            socket.emit("user_fired", {username: name});
+            $(document).trigger("user_fired", name);
 
             console.log('shot');
 
@@ -284,9 +284,11 @@ function Game(enemyAI) {
 
         gameRef = this;
         this.gameInterval = setInterval(function() { gameRef.gameLoop(); }, 1000 / Game.fps);
-        socket.emit("start_game", {gametime: this.initialShootCountdown});
+        $(document).trigger("start_game", this.initialShootCountdown);
+        $(document).trigger("get_name");
+        //socket.emit("start_game", {gametime: this.initialShootCountdown});
         //if(your_name == "noname") {
-            socket.emit("get_name");
+          //  socket.emit("get_name");
         //}
 
     }
@@ -299,12 +301,13 @@ function Game(enemyAI) {
             this.gameInterval = null;
         }
 
-        socket.emit("end_game");
+        $(document).trigger("end_game");
     }
 }
 
 // Define the game as a global variable.
 var game = new Game(true);
+var countdown = -1;
 
 //var socket;
 var your_name = "noname";
@@ -319,22 +322,17 @@ $(document).ready(function() {
 //    names = names.splice(random_idx, 1);
 
 
-    if(window.location.href.indexOf("leap-labs.localhost") != -1) {
-        socket = io.connect("http://leap-labs.localhost.com:8080/");
-    } else {
-        socket = io.connect("http://108.171.187.43:8080/");
-    }
 
-    socket.on("assign_name", function(data) {
+    $(document).on("assign_name", function(event, data) {
        //if(your_name == "noname") {
-           your_name = data.name;
+           your_name = data;
            $("#name").val(your_name);
        //}
     });
 
 
-    socket.on("status_update",function(data){
-        $("#status").append(data.txt+"<br/>");
+    $(document).on("status_update",function(event, data){
+        $("#status").append(data+"<br/>");
     });
 
     /*socket.on("you_lose", function(data) {
@@ -343,17 +341,17 @@ $(document).ready(function() {
         alert("you lost");
     });*/
 
-    socket.on('timer', function (data) {
-        game.shootCountdown = data.countdown;
+    $(document).on('timer', function (event, data) {
+        game.shootCountdown = data;
         //$('#shootoutcountdown').html(data.countdown);
     });
 
     $('#reset').click(function() {
-        socket.emit('reset', {gametime : 15});
+        $(document).trigger('reset', 15);
     });
 
-    socket.on("gameover", function(data) {
-       if(data.winner == your_name) {
+    $(document).on("gameover", function(event, data) {
+       if(data == your_name) {
            this.setStateByName('victory');
        } else {
            this.setStateByName('death');
