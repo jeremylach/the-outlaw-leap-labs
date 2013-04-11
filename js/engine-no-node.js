@@ -310,8 +310,11 @@ function Game(enemyAI) {
         // Any state where the player is alive
 
         if(this.states[this.state].name == 'victory' || this.states[this.state].name == 'opening1' || this.states[this.state].name == 'shootout') {
-
-            this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
+            if (this.playerShot) {
+                this.context.drawImage(this.img_player_lean_center, VIEWPORT_WIDTH - 400, 100);
+            } else {
+                this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
+            }
         }
     }
 
