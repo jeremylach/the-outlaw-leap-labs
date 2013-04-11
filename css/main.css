@@ -66,3 +66,7 @@ h1, h2, h3, #message {
 	text-align: center;
 	width: 100%;
 }
+
+input#name {
+	width: 200px;
+}

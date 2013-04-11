@@ -424,7 +424,7 @@ var countdown = -1;
 
 //var socket;
 var your_name = "noname";
-var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry"];
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry", "The Basecamp Buckaroo"];
 
 // When the document is ready
 $(document).ready(function() {
