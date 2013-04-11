@@ -75,7 +75,7 @@ function Game(enemyAI) {
     this.img_player_twitch3 = new Image();
     this.img_player_twitch3.src = '../assets/player-twitch3.png';
 
-    this.playerAnimations = {
+    this.playerAnimationSet = {
         twitch : {
             img : this.img_player_twitch1,
             imgIndex : 0,
@@ -94,7 +94,7 @@ function Game(enemyAI) {
         }
     }
 
-    this.playerFrame = this.playerAnimations.twitch;
+    this.playerAnimation = this.playerAnimationSet.twitch;
 
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
@@ -407,16 +407,16 @@ function Game(enemyAI) {
 
         if(this.states[this.state].name == 'victory' || this.states[this.state].name == 'opening1' || this.states[this.state].name == 'shootout') {
             if (this.playerShot) {
-                // this.playerFrame.img = this.img_player_fire1;
+
             } else {
-                this.playerFrame.ttl--;
-                if (this.playerFrame.ttl <= 0) {
-                    this.playerFrame.ttl = this.playerFrame.initTtl;
-                    if (this.playerFrame.index < this.playerFrame.sequence.length - 1) { // Length starts at 1, index starts at 0
-                        this.playerFrame.index++;
-                        this.playerFrame.img = this.playerFrame.sequence[this.playerFrame.index];
-                    } else if (this.playerFrame.loop) { // We've reached the end of the sequence. Should we loop
-                        this.playerFrame.index = 0;
+                this.playerAnimation.ttl--;
+                if (this.playerAnimation.ttl <= 0) {
+                    this.playerAnimation.ttl = this.playerAnimation.initTtl;
+                    if (this.playerAnimation.index < this.playerAnimation.sequence.length - 1) { // Length starts at 1, index starts at 0
+                        this.playerAnimation.index++;
+                        this.playerAnimation.img = this.playerAnimation.sequence[this.playerAnimation.index];
+                    } else if (this.playerAnimation.loop) { // We've reached the end of the sequence. Should we loop
+                        this.playerAnimation.index = 0;
                     } else {
                         // We've reached the end and the sequence does not loop. So, uh, do nothing?
                     }
@@ -424,7 +424,7 @@ function Game(enemyAI) {
             }
 
             console.log
-            this.context.drawImage(this.playerFrame.img, VIEWPORT_WIDTH - 400, 100);
+            this.context.drawImage(this.playerAnimation.img, VIEWPORT_WIDTH - 400, 100);
 
             // if (this.playerShot) {
             //     this.context.drawImage(this.img_player_lean_center, VIEWPORT_WIDTH - 400, 100);
