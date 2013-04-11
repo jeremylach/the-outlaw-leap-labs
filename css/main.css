@@ -30,9 +30,10 @@ h1, h2, h3, #message {
 	font-size: 30px;
 	position: absolute;
 	bottom: 10%;
-	width: 100%;
+	/*width: 100%;*/
 	text-align: center;
 	color: #2B1F17;
+    padding-left: 25%;
 }
 
 #menu a {
