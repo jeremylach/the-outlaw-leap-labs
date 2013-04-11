@@ -52,6 +52,32 @@ function Game(enemyAI) {
     this.img_cowboy_dead_shadow = new Image();
     this.img_cowboy_dead_shadow.src = '../assets/cowboy-dead-shadow.png';
 
+    this.img_player_dead = new Image();
+    this.img_player_dead.src = '../assets/player-dead.png';
+    this.img_player_draw1 = new Image();
+    this.img_player_draw1.src = '../assets/player-draw1.png';
+    this.img_player_draw2 = new Image();
+    this.img_player_draw2.src = '../assets/player-draw2.png';
+    this.img_player_fire1 = new Image();
+    this.img_player_fire1.src = '../assets/player-fire1.png';
+    this.img_player_fire2 = new Image();
+    this.img_player_fire2.src = '../assets/player-fire2.png';
+    this.img_player_lean_center = new Image();
+    this.img_player_lean_center.src = '../assets/player-lean-center.png';
+    this.img_player_lean_left = new Image();
+    this.img_player_lean_left.src = '../assets/player-lean-left.png';
+    this.img_player_lean_right = new Image();
+    this.img_player_lean_right.src = '../assets/player-lean-right.png';
+    this.img_player_twitch1 = new Image();
+    this.img_player_twitch1.src = '../assets/player-twitch1.png';
+    this.img_player_twitch2 = new Image();
+    this.img_player_twitch2.src = '../assets/player-twitch2.png';
+    this.img_player_twitch3 = new Image();
+    this.img_player_twitch3.src = '../assets/player-twitch3.png';
+
+    this.img_cowboy = new Image();
+    this.img_cowboy.src = '../assets/cowboy.png';
+
     this.img_title = new Image();
     this.img_title.src = '../assets/title.png';
 
@@ -92,6 +118,10 @@ function Game(enemyAI) {
 
     // Trigger when the player shoots.
     this.playerShoot = function() {
+        if (this.state === 0) {
+            game.setStateByName('opening1');
+        }
+
 
         // The real game is being played.
         if(this.states[this.state].name != 'tutorial') {
@@ -331,6 +361,9 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
             this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 80,
                 this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
+
+            // Draw the player
+            this.context.drawImage(this.img_player_dead, VIEWPORT_WIDTH - 400, 100);
         }
 
         // The player is victorious.
@@ -340,6 +373,13 @@ function Game(enemyAI) {
             this.context.drawImage(this.img_cowboy_dead, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 43);
             this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 68,
                 this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
+        }
+
+        // Any state where the player is alive
+
+        if(this.states[this.state].name == 'victory' || this.states[this.state].name == 'opening1' || this.states[this.state].name == 'shootout') {
+
+            this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
         }
     }
 
