@@ -17,12 +17,16 @@ function Game(enemyAI) {
     // --game state variables
     this.states = [
         {name: 'title'},
+        {name: 'tutorial'},
         {name:'opening1', length: 600, frame: 0},
         //{name:'standoff'},
         {name:'shootout'},
         {name:'defeat'}, {name:'victory'}
     ];
     this.state = 0; // Title
+
+    // global animation timer
+    this.global_animation_timer = 0;
 
     // --images
     this.img_bg = new Image();
@@ -31,6 +35,13 @@ function Game(enemyAI) {
     this.img_bg_sun.src = '../assets/bg-sun.png';
     this.img_bg_ground = new Image();
     this.img_bg_ground.src = '../assets/bg-ground.png';
+
+    this.img_enemy = new Image();
+    this.img_enemy.src = '../assets/enemy.png';
+    this.img_enemyShadow = new Image();
+    this.img_enemyShadow.src = '../assets/enemy-shadow.png';
+    this.img_cowboy = new Image();
+    this.img_cowboy.src = '../assets/cowboy-idle.png';
 
     this.img_cowboy_opening1 = new Image();
     this.img_cowboy_opening1.src = '../assets/cowboy-opening1.png';
@@ -79,6 +90,9 @@ function Game(enemyAI) {
     this.sfx_gunfire = new Audio('../assets/sound/sfx/gun_fire.wav');
     this.sfx_draw = new Audio('../assets/sound/sfx/draw.mp3');
 
+    // --tutorial variables
+    this.tutorialFired = -1; //TODO:tutorial
+
     // --shootout variables
     this.initialShootCountdown = Math.ceil(Math.random() * 8) + 3;
     this.shootCountdown = null;
@@ -109,18 +123,26 @@ function Game(enemyAI) {
         }
 
 
-        // The player is allowed to shoot and fires.
-        if(this.readyToShoot){
-            this.playerShootInput = true;
-            var name = "Jeremy";
-            //Register shot on server
-            //socket.emit("user_fired",{username: "test"});
-            $(document).trigger("user_fired", name);
+        // The real game is being played.
+        if(this.states[this.state].name != 'tutorial') {
+            // The player is allowed to shoot and fires.
+            if(this.readyToShoot){
+                this.playerShootInput = true;
+                var name = "Jeremy";
+                //Register shot on server
+                //socket.emit("user_fired",{username: "test"});
+                $(document).trigger("user_fired", name);
 
 
-        // The player is not allowed to shoot.
+            // The player is not allowed to shoot.
+            } else {
+                //TODO: player fired before ready
+            }
+
+        // The player is shooting in a tutorial level.
         } else {
-            //TODO: player fired before ready
+
+            //TODO:tutorial
         }
     }
 
@@ -140,6 +162,17 @@ function Game(enemyAI) {
 
     // Update the game for one tick of the world time.
     this.update = function() {
+
+        // Increment the global animation timer
+        if(this.state != 0 && this.state != 1) {
+            this.global_animation_timer++;
+        }
+
+        // The tutorial is occurring.
+        if(this.states[this.state].name == 'tutorial') {
+
+            //TODO: tutorial
+        }
 
         // The first part of the opening is occurring.
         if(this.states[this.state].name == 'opening1') {
@@ -239,6 +272,19 @@ function Game(enemyAI) {
         // Draw the sky background.
         this.context.drawImage(this.img_bg, 0, 0, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
+        // The shootout background.
+        if(this.states[this.state].name == 'opening1' ||
+            this.states[this.state].name == 'shootout' ||
+            this.states[this.state].name == 'defeat' ||
+            this.states[this.state].name == 'victory')
+        {
+            this.context.drawImage(this.img_bg_sun,
+                (VIEWPORT_WIDTH / 4) - (this.img_bg_sun.width / 2) + ((this.global_animation_timer / 2500) * (VIEWPORT_WIDTH / 8)),
+                (this.img_bg_sun.height / 2) - ((this.global_animation_timer / 5000) * (VIEWPORT_WIDTH / 8))
+            );
+            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+        }
+
         if(this.states[this.state].name == 'title') {
             this.context.drawImage(this.img_title, 0,0);
             // TODO: do this once, instead of on every draw.
@@ -253,14 +299,24 @@ function Game(enemyAI) {
             length = this.states[this.state].length;
             frame = this.states[this.state].frame;
 
-            // Draw the background.
-            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4) + (180 * (1 - (frame / length))));
-            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2 - 80);
+            // Draw the enemy.
+            this.context.drawImage(this.img_enemy,
+                ((VIEWPORT_WIDTH / 8) * (4 - ((frame / length) * 1))) - (this.img_enemy.width / 2),
+                (VIEWPORT_HEIGHT / 2) - 50
+            );
+            this.context.drawImage(this.img_enemyShadow,
+                ((VIEWPORT_WIDTH / 8) * (4 - ((frame / length) * 1))) - (this.img_enemyShadow.width / 2) + 15,
+                (VIEWPORT_HEIGHT / 2) - 50 + this.img_enemy.height
+            );
             // Draw the cowboy.
-            this.context.drawImage(this.img_cowboy_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_opening1.width / 2), (VIEWPORT_HEIGHT / 2) - this.img_cowboy_opening1.height);
+            this.context.drawImage(this.img_cowboy,
+                VIEWPORT_WIDTH - ((VIEWPORT_WIDTH / 8) * ((frame / length) * 4)),
+                (VIEWPORT_HEIGHT / 30)
+            );
+            /*this.context.drawImage(this.img_cowboy_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_opening1.width / 2), (VIEWPORT_HEIGHT / 2) - this.img_cowboy_opening1.height);
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - 2,
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * (1 - (.5 * (frame / length))));
-
+            */
             $('#menu').hide();
             $('#instructions').hide();
             $('#start').hide();
@@ -274,19 +330,33 @@ function Game(enemyAI) {
         // The shootout is active.
         if(this.states[this.state].name == 'shootout') {
 
-            // Draw the background.
-            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
-            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+            // Draw the enemy.
+            this.context.drawImage(this.img_enemy,
+                ((VIEWPORT_WIDTH / 8) * 3) - (this.img_enemy.width / 2),
+                (VIEWPORT_HEIGHT / 2) - 50
+            );
+            this.context.drawImage(this.img_enemyShadow,
+                ((VIEWPORT_WIDTH / 8) * 3) - (this.img_enemyShadow.width / 2) + 15,
+                (VIEWPORT_HEIGHT / 2) - 50 + this.img_enemy.height,
+                this.img_enemyShadow.width,
+                this.img_enemyShadow.height
+            );
+            // Draw the cowboy.
+            this.context.drawImage(this.img_cowboy,
+                VIEWPORT_WIDTH - (VIEWPORT_WIDTH / 8) * 4,
+                (VIEWPORT_HEIGHT / 30)
+            );
+            /*
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 80,
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * .38);
+            */
         }
 
         // The player has been defeated.
         if(this.states[this.state].name == 'defeat') {
-            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
-            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
             this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 80,
@@ -298,9 +368,7 @@ function Game(enemyAI) {
 
         // The player is victorious.
         if(this.states[this.state].name == 'victory') {
-            // Draw the background.
-            this.context.drawImage(this.img_bg_sun, (VIEWPORT_WIDTH / 2) - (this.img_bg_sun.width / 2), -(this.img_bg_sun.height / 4));
-            this.context.drawImage(this.img_bg_ground, (VIEWPORT_WIDTH / 2) - (this.img_bg_ground.width / 2), VIEWPORT_HEIGHT / 2);
+
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy_dead, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 43);
             this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) - 8, (VIEWPORT_HEIGHT / 2) + 68,
