@@ -385,8 +385,11 @@ function Game(enemyAI) {
         // Any state where the player is alive
 
         if(this.states[this.state].name == 'victory' || this.states[this.state].name == 'opening1' || this.states[this.state].name == 'shootout') {
-
-            this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
+            if (this.playerShot) {
+                this.context.drawImage(this.img_player_lean_center, VIEWPORT_WIDTH - 400, 100);
+            } else {
+                this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
+            }
         }
     }
 
@@ -428,7 +431,7 @@ var countdown = -1;
 
 //var socket;
 var your_name = "noname";
-var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry"];
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry", "The Basecamp Buckaroo"];
 
 // When the document is ready
 $(document).ready(function() {

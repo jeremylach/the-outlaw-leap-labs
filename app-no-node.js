@@ -3,7 +3,7 @@
 var countdown = -1;
 var game_in_progress = false;
 
-var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry"];
+var names = ["Gassy Bill", "Jon The Kid", "Asian Will", "White Will", "Craigy", "Goofy Frank", "Curly Larry", "The Basecamp Buckaroo"];
 
 
 
