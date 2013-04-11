@@ -75,6 +75,11 @@ function Game(enemyAI) {
     this.img_player_twitch3 = new Image();
     this.img_player_twitch3.src = '../assets/player-twitch3.png';
 
+    this.playerFrame = {
+        img : this.img_player_twitch1,
+        length : 10 // In frames
+    }
+
     this.img_cowboy = new Image();
     this.img_cowboy.src = '../assets/cowboy.png';
 
@@ -309,10 +314,10 @@ function Game(enemyAI) {
                 (VIEWPORT_HEIGHT / 2) - 50 + this.img_enemy.height
             );
             // Draw the cowboy.
-            this.context.drawImage(this.img_cowboy,
-                VIEWPORT_WIDTH - ((VIEWPORT_WIDTH / 8) * ((frame / length) * 4)),
-                (VIEWPORT_HEIGHT / 30)
-            );
+            // this.context.drawImage(this.img_cowboy,
+            //     VIEWPORT_WIDTH - ((VIEWPORT_WIDTH / 8) * ((frame / length) * 4)),
+            //     (VIEWPORT_HEIGHT / 30)
+            // );
             /*this.context.drawImage(this.img_cowboy_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_opening1.width / 2), (VIEWPORT_HEIGHT / 2) - this.img_cowboy_opening1.height);
             this.context.drawImage(this.img_cowboy_shadow_opening1, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_shadow_opening1.width / 2) + 6, (VIEWPORT_HEIGHT / 2) - 2,
                 this.img_cowboy_shadow_opening1.width, this.img_cowboy_shadow_opening1.height * (1 - (.5 * (frame / length))));
@@ -342,10 +347,10 @@ function Game(enemyAI) {
                 this.img_enemyShadow.height
             );
             // Draw the cowboy.
-            this.context.drawImage(this.img_cowboy,
-                VIEWPORT_WIDTH - (VIEWPORT_WIDTH / 8) * 4,
-                (VIEWPORT_HEIGHT / 30)
-            );
+            // this.context.drawImage(this.img_cowboy,
+            //     VIEWPORT_WIDTH - (VIEWPORT_WIDTH / 8) * 4,
+            //     (VIEWPORT_HEIGHT / 30)
+            // );
             /*
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
@@ -385,11 +390,12 @@ function Game(enemyAI) {
         // Any state where the player is alive
 
         if(this.states[this.state].name == 'victory' || this.states[this.state].name == 'opening1' || this.states[this.state].name == 'shootout') {
-            if (this.playerShot) {
-                this.context.drawImage(this.img_player_lean_center, VIEWPORT_WIDTH - 400, 100);
-            } else {
-                this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
-            }
+            this.context.drawImage(this.playerFrame.img, VIEWPORT_WIDTH - 400, 100);
+            // if (this.playerShot) {
+            //     this.context.drawImage(this.img_player_lean_center, VIEWPORT_WIDTH - 400, 100);
+            // } else {
+            //     this.context.drawImage(this.img_player_twitch1, VIEWPORT_WIDTH - 400, 100);
+            // }
         }
     }
 
