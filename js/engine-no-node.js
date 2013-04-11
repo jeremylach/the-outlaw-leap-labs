@@ -489,6 +489,10 @@ $(document).ready(function() {
         e.preventDefault();
         game.setStateByName('opening1');
     });
+    $('#tutorial').click(function(e){
+        e.preventDefault();
+        game.setStateByName('tutorial');
+    });
 
     // Create a new game and run it.
     game.run();
