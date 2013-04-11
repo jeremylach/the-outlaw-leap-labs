@@ -347,10 +347,10 @@ function Game(enemyAI) {
                 this.img_enemyShadow.height
             );
             // Draw the cowboy.
-            this.context.drawImage(this.img_cowboy,
-                VIEWPORT_WIDTH - (VIEWPORT_WIDTH / 8) * 4,
-                (VIEWPORT_HEIGHT / 30)
-            );
+            // this.context.drawImage(this.img_cowboy,
+            //     VIEWPORT_WIDTH - (VIEWPORT_WIDTH / 8) * 4,
+            //     (VIEWPORT_HEIGHT / 30)
+            // );
             /*
             // Draw the cowboy.
             this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
