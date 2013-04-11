@@ -123,6 +123,8 @@ function Game(enemyAI) {
     this.sfx_draw = new Audio('../assets/sound/sfx/draw.mp3');
 
     // --tutorial variables
+    this.tutorialBottles = 4;
+    this.tutorialBottlesRemaining = 4;
     this.tutorialFired = -1; //TODO:tutorial
 
     // --shootout variables
@@ -333,6 +335,31 @@ function Game(enemyAI) {
                 (VIEWPORT_WIDTH / 4) - (this.img_bg_sun.width / 4),
                 (this.img_bg_sun.height / 4)
             );
+
+            // Draw the bottle platform.
+            this.context.drawImage(this.img_bottle_platform,
+                0,
+                (VIEWPORT_HEIGHT / 16) * 9
+            );
+
+            // Draw the bottles.
+            for(var i = 0; i < this.tutorialBottles; i++) {
+                // Draw a broken bottle.
+                if(this.tutorialBottles - (Math.abs(this.tutorialBottlesRemaining - this.tutorialBottles)) - 1 < i) {
+                    this.context.drawImage(this.img_bottle_broken_bottom,
+                        (this.img_bottle.width * 1.5) + (i * this.img_bottle.width * 2) + 2,
+                        ((VIEWPORT_HEIGHT / 16) * 5) + 163
+                    );
+                // Draw an unbroken bottle.
+                } else {
+                    this.context.drawImage(this.img_bottle,
+                        (this.img_bottle.width * 1.5) + (i * this.img_bottle.width * 2),
+                        (VIEWPORT_HEIGHT / 16) * 5
+                    );
+                }
+            }
+
+            //TODO: draw the player
 
             $('#menu').hide();
             $('#instructions').hide();
