@@ -362,10 +362,17 @@ function Game(enemyAI) {
         // The player has been defeated.
         if(this.states[this.state].name == 'defeat') {
 
-            // Draw the cowboy.
-            this.context.drawImage(this.img_cowboy, (VIEWPORT_WIDTH / 2) - (this.img_cowboy.width / 2), (VIEWPORT_HEIGHT / 2) + 20);
-            this.context.drawImage(this.img_cowboy_dead_shadow, (VIEWPORT_WIDTH / 2) - (this.img_cowboy_dead_shadow.width / 2) + 6, (VIEWPORT_HEIGHT / 2) + 80,
-                this.img_cowboy_dead_shadow.width, this.img_cowboy_dead_shadow.height * .38);
+            // Draw the enemy.
+            this.context.drawImage(this.img_enemy,
+                ((VIEWPORT_WIDTH / 8) * 3) - (this.img_enemy.width / 2),
+                (VIEWPORT_HEIGHT / 2) - 50
+            );
+            this.context.drawImage(this.img_enemyShadow,
+                ((VIEWPORT_WIDTH / 8) * 3) - (this.img_enemyShadow.width / 2) + 15,
+                (VIEWPORT_HEIGHT / 2) - 50 + this.img_enemy.height,
+                this.img_enemyShadow.width,
+                this.img_enemyShadow.height
+            );
 
             // Draw the player
             this.context.drawImage(this.img_player_dead, VIEWPORT_WIDTH - 400, 100);
