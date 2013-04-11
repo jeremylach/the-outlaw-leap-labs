@@ -86,6 +86,7 @@ function Game(enemyAI) {
 
     this.playerAnimationSet = {
         twitch : {
+            name : 'twitch', // This is probably redundant but is a little more efficient than converting JSON objects into strings and comparing those.
             img : this.img_player_twitch1,
             imgIndex : 0,
             ttl : 10, // Time to live, in frames
@@ -94,6 +95,7 @@ function Game(enemyAI) {
             loop : true
         },
         shoot : {
+            name : 'shoot',
             img : this.img_player_fire1, // Current image
             imgIndex : 0, // Index of the current image within the sequence
             ttl : 10, // Time to live, in frames
@@ -323,7 +325,8 @@ function Game(enemyAI) {
             $('#start').show();
         }
 
-        // The tutorial is occurring.
+
+// The tutorial is occurring.
         if(this.states[this.state].name == 'tutorial') {
 
             this.context.drawImage(this.img_bg_sun,
@@ -370,6 +373,7 @@ function Game(enemyAI) {
 
         }
 
+        // The shootout is active.
         if(this.states[this.state].name == 'shootout') {
 
             // Draw the enemy.
@@ -427,20 +431,20 @@ function Game(enemyAI) {
         // Any state where the player is alive
 
         if(this.states[this.state].name == 'victory' || this.states[this.state].name == 'opening1' || this.states[this.state].name == 'shootout') {
-            if (this.playerShot) {
+            if (this.playerShot && this.playerAnimation.name !=='shoot') {
+                this.playerAnimation = this.playerAnimationSet.shoot;
+            }
 
-            } else {
-                this.playerAnimation.ttl--;
-                if (this.playerAnimation.ttl <= 0) {
-                    this.playerAnimation.ttl = this.playerAnimation.initTtl;
-                    if (this.playerAnimation.index < this.playerAnimation.sequence.length - 1) { // Length starts at 1, index starts at 0
-                        this.playerAnimation.index++;
-                        this.playerAnimation.img = this.playerAnimation.sequence[this.playerAnimation.index];
-                    } else if (this.playerAnimation.loop) { // We've reached the end of the sequence. Should we loop
-                        this.playerAnimation.index = 0;
-                    } else {
-                        // We've reached the end and the sequence does not loop. So, uh, do nothing?
-                    }
+            this.playerAnimation.ttl--;
+            if (this.playerAnimation.ttl <= 0) {
+                this.playerAnimation.ttl = this.playerAnimation.initTtl;
+                if (this.playerAnimation.index < this.playerAnimation.sequence.length - 1) { // Length starts at 1, index starts at 0
+                    this.playerAnimation.index++;
+                    this.playerAnimation.img = this.playerAnimation.sequence[this.playerAnimation.index];
+                } else if (this.playerAnimation.loop) { // We've reached the end of the sequence. Should we loop
+                    this.playerAnimation.index = 0;
+                } else {
+                    // We've reached the end and the sequence does not loop. So, uh, do nothing?
                 }
             }
 
@@ -538,6 +542,7 @@ $(document).ready(function() {
        } else {
            game.setStateByName('death');
        }
+
     });
 
     $(".button").click(function(){
@@ -546,13 +551,14 @@ $(document).ready(function() {
         game.playerShoot();
     });
 
-    $('#start').click(function (e){
-        e.preventDefault();
-        game.setStateByName('opening1');
-    });
     $('#tutorial').click(function(e){
         e.preventDefault();
         game.setStateByName('tutorial');
+    });
+
+    $('#start').click(function (e){
+        e.preventDefault();
+        game.setStateByName('opening1');
     });
 
     // Create a new game and run it.
