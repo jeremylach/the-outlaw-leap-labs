@@ -36,6 +36,15 @@ function Game(enemyAI) {
     this.img_bg_ground = new Image();
     this.img_bg_ground.src = '../assets/bg-ground.png';
 
+    this.img_bottle_platform = new Image();
+    this.img_bottle_platform.src = '../assets/bottle-platform.png';
+    this.img_bottle = new Image();
+    this.img_bottle.src = '../assets/bottle.png';
+    this.img_bottle_broken_bottom = new Image();
+    this.img_bottle_broken_bottom.src = '../assets/bottle-broken-bottom.png';
+    this.img_bottle_broken_top = new Image();
+    this.img_bottle_broken_top.src = '../assets/bottle-broken-top.png';
+
     this.img_enemy = new Image();
     this.img_enemy.src = '../assets/enemy.png';
     this.img_enemyShadow = new Image();
@@ -298,6 +307,19 @@ function Game(enemyAI) {
             $('#start').show();
         }
 
+        // The tutorial is occurring.
+        if(this.states[this.state].name == 'tutorial') {
+
+            this.context.drawImage(this.img_bg_sun,
+                (VIEWPORT_WIDTH / 4) - (this.img_bg_sun.width / 4),
+                (this.img_bg_sun.height / 4)
+            );
+
+            $('#menu').hide();
+            $('#instructions').hide();
+            $('#start').hide();
+        }
+
         // The first part of the opening is occurring.
         if(this.states[this.state].name == 'opening1') {
 
@@ -332,7 +354,6 @@ function Game(enemyAI) {
 
         }
 
-        // The shootout is active.
         if(this.states[this.state].name == 'shootout') {
 
             // Draw the enemy.
@@ -482,7 +503,6 @@ $(document).ready(function() {
        } else {
            game.setStateByName('death');
        }
-
     });
 
     $(".button").click(function(){
